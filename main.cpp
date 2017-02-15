@@ -1,5 +1,5 @@
 /********************************************************************
-Main for Project 3 Pong Program by Alex Seaver and Coire Gavin Hanner
+Main for Project 3 Pong Program by Alex Seaver and Coire Gavin-Hanner
 Last Modified: February 15
 ********************************************************************/
 
