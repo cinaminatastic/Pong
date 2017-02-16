@@ -1,0 +1,85 @@
+<canvas id="canvas" width="300" height="300"></canvas>
+
+var x = 120;
+var y = 100;
+var dx = 2;
+var dy = 8;
+var ctx;
+var width;
+var height;
+var paddlex;
+var paddlew = 75;
+var paddleh = 10;
+var intervalId = 0;
+
+function init() {
+    ctx = $("#canvas")[0].getContext("2d");
+    width = $("#canvas").width();
+    height = $("#canvas").height();
+    paddlex = width / 2;
+    intervalId = setInterval(draw, 20);
+    return intervalId;
+}
+
+function circle(x, y, r) {
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2, true);
+    ctx.closePath();
+    ctx.fill();
+}
+
+function rect(x, y, w, h) {
+    ctx.beginPath();
+    ctx.rect(x, y, w, h);
+    ctx.closePath();
+    ctx.fill();
+}
+
+function clear() {
+    ctx.clearRect(0, 0, width, height);
+}
+
+var leftDown = false;
+var rightDown = false;
+
+$(document).keydown(function(e) {
+    if(e.keyCode == 39) {
+        rightDown = true;
+    } else if(e.keyCode = 37) {
+        leftDown = true;
+    }
+});
+$(document).keyup(function(e) {
+    if(e.keyCode == 39) {
+        rightDown = false;
+    } else if(e.keyCode == 37) {
+        leftDown = false;
+    }
+});
+
+function draw() {
+    clear();
+    circle(x, y, 10);
+    if(leftDown) {
+        paddlex -= 5;
+    } else if(rightDown) {
+        paddlex += 5;
+    }
+    rect(paddlex, height - paddleh, paddlew, paddleh);
+    if (x + dx > width || x + dx < 0) {
+        dx = -dx;
+    }
+    if (y + dy < 0) {
+        dy = -dy;
+    } else if (y + dy > height) {
+        if (x > paddlex && x < paddlex + paddlew) {
+            dy = -dy;
+        } else {
+            clearInterval(intervalId);
+        }
+    }
+    x += dx;
+    y += dy;
+}
+
+init();
