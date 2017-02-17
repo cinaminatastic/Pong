@@ -7,5 +7,5 @@ int main()
   cout << "Server to eventually run pong\n";
 
   system("pause");
-  return(0);
+  return 0;
 }
