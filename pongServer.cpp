@@ -12,7 +12,6 @@
 
 
 #include <iostream>
-#include <stdlib>
 #include "fifo.h"
 using namespace std;
 
