@@ -21,34 +21,25 @@ int main()
 	string nameRec_fifo = "receivename";
 	string nameSend_fifo = "sendname";
 	
-	cout << "test: main_1"
+	cout << "test: main_1";
 	// create the FIFOs for communication
 	Fifo nameRecfifo(nameRec_fifo);
 	Fifo nameSendfifo(nameSend_fifo);
 
-	cout << "test: main_2 (fifo's created)"
+	cout << "test: main_2 (fifo's created)";
 
 	nameRecfifo.openread();
 	p1Name = nameRecfifo.recv();
 	nameRecfifo.fifoclose();	
-	cout << "test: main_3 (name received)"
+	cout << "test: main_3 (name received)";
 	cout << "Name: " << p1Name << endl;
 
 	nameSendfifo.openwrite();
 	nameSendfifo.send(p1Name);
-	nameSendfifo.fifoclose;	
-	cout << "test: main_4 (name sent)"
+	nameSendfifo.fifoclose();	
+	cout << "test: main_4 (name sent)";
 
-	
-	
 	cout << "Server to eventually run pong\n";
 	
-	while(1)
-	{
-		
-	}
-	
-
-	//system("pause");
 	return 0;
 }

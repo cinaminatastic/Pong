@@ -9,6 +9,21 @@ var paddlex;
 var paddlew = 75;
 var paddleh = 10;
 var intervalId = 0;
+var XMLHttp;
+
+if(navigator.appName == "Microsoft Internet Explorer") {
+    XMLHttp = new ActiveXObject("Microsoft.XMLHTTP");
+} else {
+    XMLHttp = new XMLHttpRequest();
+}
+
+function getWord() {
+	var name = document.getElementById('name').value;		     
+    if (name.length < 1) return;
+	
+    document.getElementById('response_area').innerHTML = name;
+}
+	
 
 function init() {
     ctx = $("#canvas")[0].getContext("2d");
