@@ -9,7 +9,7 @@ var paddlex;
 var paddlew = 75;
 var paddleh = 10;
 var intervalId = 0;
-var XMLHttp;
+
 
 var XMLHttp;
 
@@ -24,24 +24,18 @@ function createAjax() { //this function is called at least
 }
 
 function getWord() { //function is called when submit is pressed
-	//document.getElementById('response_area').innerHTML = "Second test worked";
-	/*if(navigator.appName == "Microsoft Internet Explorer") {
-		XMLHttp = new ActiveXObject("Microsoft.XMLHTTP");
-	} else {
-		XMLHttp = new XMLHttpRequest(); // works
 
-	}*/
-	var name = document.getElementById('name').value; //works
-	//document.getElementById('response_area').innerHTML = name;
-		     
+    var name = document.getElementById('name').value; //works	     
+
     if (name.length < 1) return;
-	XMLHttp.open("GET", "/cgi-bin/gavinhannerc_namefetchajax.cgi?" + "&name=" + name, true);
-	XMLHttp.onreadystatechange=function() 
-    {
+
+    XMLHttp.open("GET", "/cgi-bin/gavinhannerc_pongAjax.cgi?" + "&name=" + name, true);
+
+    XMLHttp.onreadystatechange=function() {
     	//document.getElementById('response_area').innerHTML = name;
-		document.getElementById('response_area').innerHTML = XMLHttp.responseText;
+	document.getElementById('response_area').innerHTML = XMLHttp.responseText;;
 	}
-	//XMLHttp.send(null);
+    XMLHttp.send(null);
 }
 	
 
