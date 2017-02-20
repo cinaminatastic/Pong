@@ -24,15 +24,21 @@ using namespace cgicc; // Needed for AJAX functions.
 
 int main()
 {
-	string nameRec_fifo = "receivename";
-	string nameSend_fifo = "sendname";
+	string nameRec = "receivename";
+	string nameSend = "sendname";
+	
+	
+	// create the FIFOs for communication
+	Fifo nameRec_fifo(nameRec);
+	Fifo nameSend_fifo(nameSend);
 
 	Cgicc cgi;    // Ajax object
 	
-	string name = cgi.getElement("name");
+	form_iterator name = cgi.getElement("name");
+	string message = **name;
 	
 	nameSend_fifo.openwrite();
-	nameSend_fifo.send(name);
+	nameSend_fifo.send(message);
 	nameSend_fifo.fifoclose();
 	
 	nameRec_fifo.openread();

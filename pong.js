@@ -21,7 +21,14 @@ function getWord() {
 	var name = document.getElementById('name').value;		     
     if (name.length < 1) return;
 	
-    document.getElementById('response_area').innerHTML = name;
+    //document.getElementById('response_area').innerHTML = name;
+    XMLHttp.onreadystatechange=function() 
+    {
+    	//var table = nameTable(XMLHttp.responseText);
+		//document.getElementById('response_area').innerHTML = "name_stats_ajax.html returns:";
+		document.getElementById('response_area').innerHTML = XMLHttp.responseText;
+	}
+	XMLHttp.send(null);
 }
 	
 

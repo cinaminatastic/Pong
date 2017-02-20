@@ -1,5 +1,5 @@
 # Put your user name below:
-USER= seavera
+USER= gavinhannerc
 CC= g++
 
 #For Optimization
