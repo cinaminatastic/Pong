@@ -37,15 +37,15 @@ int main()
 	form_iterator name = cgi.getElement("name");
 	string message = **name;
 	
-	nameSend_fifo.openwrite();
-	nameSend_fifo.send(message);
-	nameSend_fifo.fifoclose();
+	//nameSend_fifo.openwrite();
+	//nameSend_fifo.send(message);
+	//nameSend_fifo.fifoclose();
 	
-	nameRec_fifo.openread();
-	string recName = nameRec_fifo.recv();
-	nameRec_fifo.fifoclose();
+	//nameRec_fifo.openread();
+	//string recName = nameRec_fifo.recv();
+	//nameRec_fifo.fifoclose();
 	
-	cout << recName;
+	cout << message;
 	
 	
 	return 0;
