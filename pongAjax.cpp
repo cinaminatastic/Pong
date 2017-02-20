@@ -24,8 +24,8 @@ using namespace cgicc; // Needed for AJAX functions.
 
 int main()
 {
-	string nameRec = "receivename";
-	string nameSend = "sendname";
+	string nameRec = "name_reply"; //use this to identify different users
+	string nameSend = "name_request";
 	
 	string test = "Test worked";
 	
@@ -39,19 +39,20 @@ int main()
 	form_iterator name = cgi.getElement("name");
 	string message = **name;
 	
-	cout << "Content-Type: text/html\n\n";
-	cout << message;
-	
-	//nameSend_fifo.openwrite();
-	//nameSend_fifo.send(message);
-	//nameSend_fifo.fifoclose();
-	
-	//nameRec_fifo.openread();
-	//string recName = nameRec_fifo.recv();
-	//nameRec_fifo.fifoclose();
 	
 	//cout << message;
 	
+	nameSend_fifo.openwrite();
+	nameSend_fifo.send(message);
+	
+	
+	/*nameRec_fifo.openread();
+	string recName = nameRec_fifo.recv();
+	nameRec_fifo.fifoclose();*/
+	
+	cout << "Content-Type: text/html\n\n";
+	cout << message;
+	nameSend_fifo.fifoclose();	
 	
 	return 0;
 }
