@@ -28,17 +28,19 @@ int main()
 	string nameSend = "sendname";
 	
 	string test = "Test worked";
-	cout << test;
 	
 	
 	// create the FIFOs for communication
-	/*Fifo nameRec_fifo(nameRec);
+	Fifo nameRec_fifo(nameRec);
 	Fifo nameSend_fifo(nameSend);
 
 	Cgicc cgi;    // Ajax object
 	
 	form_iterator name = cgi.getElement("name");
 	string message = **name;
+	
+	cout << "Content-Type: text/html\n\n";
+	cout << message;
 	
 	//nameSend_fifo.openwrite();
 	//nameSend_fifo.send(message);
@@ -48,7 +50,7 @@ int main()
 	//string recName = nameRec_fifo.recv();
 	//nameRec_fifo.fifoclose();
 	
-	cout << message;*/
+	//cout << message;
 	
 	
 	return 0;
