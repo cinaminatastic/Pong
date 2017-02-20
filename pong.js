@@ -11,24 +11,41 @@ var paddleh = 10;
 var intervalId = 0;
 var XMLHttp;
 
-function getWord() {
+var XMLHttp;
+
+function createAjax() { //this function is called at least
+
 	if(navigator.appName == "Microsoft Internet Explorer") {
 		XMLHttp = new ActiveXObject("Microsoft.XMLHTTP");
 	} else {
-		XMLHttp = new XMLHttpRequest();
+		XMLHttp = new XMLHttpRequest(); //this else part is entered using chrome
 	}
-	var name = document.getElementById('name').value;		     
+
+}
+
+function getWord() { //function is called when submit is pressed
+	//document.getElementById('response_area').innerHTML = "Second test worked";
+	/*if(navigator.appName == "Microsoft Internet Explorer") {
+		XMLHttp = new ActiveXObject("Microsoft.XMLHTTP");
+	} else {
+		XMLHttp = new XMLHttpRequest(); // works
+
+	}*/
+	var name = document.getElementById('name').value; //works
+	//document.getElementById('response_area').innerHTML = name;
+		     
     if (name.length < 1) return;
-	XMLHttp.open("GET", "/cgi-bin/seavera_namefetchajax.cgi?" + "&name=" + name, true);
+	XMLHttp.open("GET", "/cgi-bin/gavinhannerc_namefetchajax.cgi?" + "&name=" + name, true);
 	XMLHttp.onreadystatechange=function() 
     {
+    	//document.getElementById('response_area').innerHTML = name;
 		document.getElementById('response_area').innerHTML = XMLHttp.responseText;
 	}
-	XMLHttp.send(null);
+	//XMLHttp.send(null);
 }
 	
 
-function init() {
+/*function init() {
     ctx = $("#canvas")[0].getContext("2d");
     width = $("#canvas").width();
     height = $("#canvas").height();
@@ -50,12 +67,12 @@ function rect(x, y, w, h) {
     ctx.closePath();
     ctx.fill();
 }
-/*
+
  * 	x: x-coord of upper left corner
  *	y: y-coord of upper left corner
  *	w: width of the rectangle
  *	h: height of the rectangle
- */
+ 
 
 function clear() {
     ctx.clearRect(0, 0, width, height);
@@ -104,4 +121,4 @@ function draw() {
     y += dy;
 }
 
-init();
+init();*/
