@@ -28,6 +28,7 @@ int main()
 	string nameSend = "name_request";
 	
 	string recName = "Did not receive";
+	string remote_IP = getenv("REMOTE_ADDR");
 	
 	
 	// create the FIFOs for communication
