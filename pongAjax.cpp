@@ -27,7 +27,7 @@ int main()
 	string nameRec = "name_reply"; //use this to identify different users
 	string nameSend = "name_request";
 	
-	string test = "Test worked";
+	string recName = "Did not receive";
 	
 	
 	// create the FIFOs for communication
@@ -39,20 +39,18 @@ int main()
 	form_iterator name = cgi.getElement("name");
 	string message = **name;
 	
-	
-	//cout << message;
-	
+
 	nameSend_fifo.openwrite();
 	nameSend_fifo.send(message);
+	nameSend_fifo.fifoclose();
 	
 	
-	/*nameRec_fifo.openread();
-	string recName = nameRec_fifo.recv();
-	nameRec_fifo.fifoclose();*/
+	nameRec_fifo.openread();
+	recName = nameRec_fifo.recv();
 	
 	cout << "Content-Type: text/html\n\n";
-	cout << message;
-	nameSend_fifo.fifoclose();	
+	cout << recName;
+	nameRec_fifo.fifoclose();	
 	
 	return 0;
 }

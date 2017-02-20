@@ -25,14 +25,13 @@ function createAjax() { //this function is called at least
 
 function getWord() { //function is called when submit is pressed
 
-    var name = document.getElementById('name').value; //works	     
+    var name = document.getElementById('name').value;	     
 
     if (name.length < 1) return;
 
-    XMLHttp.open("GET", "/cgi-bin/gavinhannerc_pongAjax.cgi?" + "&name=" + name, true);
+    XMLHttp.open("GET", "/cgi-bin/seavera_pongAjax.cgi?" + "&name=" + name, true);
 
     XMLHttp.onreadystatechange=function() {
-    	//document.getElementById('response_area').innerHTML = name;
 	document.getElementById('response_area').innerHTML = XMLHttp.responseText;;
 	}
     XMLHttp.send(null);
