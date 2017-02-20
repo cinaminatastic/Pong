@@ -11,17 +11,16 @@ var paddleh = 10;
 var intervalId = 0;
 var XMLHttp;
 
-if(navigator.appName == "Microsoft Internet Explorer") {
-    XMLHttp = new ActiveXObject("Microsoft.XMLHTTP");
-} else {
-    XMLHttp = new XMLHttpRequest();
-}
-
 function getWord() {
+	if(navigator.appName == "Microsoft Internet Explorer") {
+		XMLHttp = new ActiveXObject("Microsoft.XMLHTTP");
+	} else {
+		XMLHttp = new XMLHttpRequest();
+	}
 	var name = document.getElementById('name').value;		     
     if (name.length < 1) return;
 	XMLHttp.open("GET", "/cgi-bin/seavera_namefetchajax.cgi?" + "&name=" + name, true);
-    XMLHttp.onreadystatechange=function() 
+	XMLHttp.onreadystatechange=function() 
     {
 		document.getElementById('response_area').innerHTML = XMLHttp.responseText;
 	}
