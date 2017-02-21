@@ -1,28 +1,20 @@
-var x = 120; //positions of the ball
-var y = 100;
+var x = 50; //positions of the ball
+var y = 50;
 var dx = 2; //can set these to random numbers in the beginning
 var dy = 8;
 var ctx;
 var width;
 var height;
-var paddlex;
-var paddlew = 75;
-var paddleh = 10;
+var paddley;
+var paddlew = 10;
+var paddleh = 75;
 var intervalId = 0;
-var count = 0;
 
 
 var XMLHttp;
+var upDown = false;
+var downDown = false;
 
-function createAjax() { //this function is called at least
-
-	if(navigator.appName == "Microsoft Internet Explorer") {
-		XMLHttp = new ActiveXObject("Microsoft.XMLHTTP");
-	} else {
-		XMLHttp = new XMLHttpRequest(); //this else part is entered using chrome
-	}
-
-}
 
 function getUsername() { //function is called when submit is pressed
 
@@ -37,15 +29,12 @@ function getUsername() { //function is called when submit is pressed
 	}
     XMLHttp.send(null);
 }
-	
 
-/*function init() {
-    ctx = $("#canvas")[0].getContext("2d");
-    width = $("#canvas").width();
-    height = $("#canvas").height();
-    paddlex = width / 2;
-    intervalId = setInterval(draw, 20);
-    return intervalId;
+function rect(x, y, w, h) {
+    ctx.beginPath();
+    ctx.rect(x, y, w, h); 
+    ctx.closePath();
+    ctx.fill();
 }
 
 function circle(x, y, r) {
@@ -55,13 +44,95 @@ function circle(x, y, r) {
     ctx.fill();
 }
 
-function rect(x, y, w, h) {
-    ctx.beginPath();
-    ctx.rect(x, y, w, h); 
-    ctx.closePath();
-    ctx.fill();
+function clear() {
+    ctx.clearRect(0, 0, width, height);
 }
 
+
+function movePaddle() {
+	if(upDown) {
+		paddley -= 5;
+	} else if(downDown) {
+		paddley +=5;
+	}
+	//document.getElementById('response2').innerHTML = paddlePos;
+	clear(); //clears the rectangle...?
+    rect(0, paddley, paddlew, paddleh); //sets the position of the paddle
+    circle(x, y, 10); //sets the ball in motion
+
+}
+
+function paddle() {
+
+    intVar = setInterval(function(){ movePaddle()}, 20);
+}
+
+
+function initialize() { //this function is called at least
+
+	if(navigator.appName == "Microsoft Internet Explorer") {
+		XMLHttp = new ActiveXObject("Microsoft.XMLHTTP");
+	} else {
+		XMLHttp = new XMLHttpRequest(); //this else part is entered using chrome
+	}
+	document.getElementById("canvas").style.background = 'rgb(128, 128, 128)';
+	init();
+	paddley = height/2;
+
+}
+
+function getWord() { //function is called when submit is pressed
+
+    var name = document.getElementById('name').value;	     
+
+    if (name.length < 1) return;
+
+    XMLHttp.open("GET", "/cgi-bin/gavinhannerc_pongAjax.cgi?" + "&name=" + name, true);
+
+    XMLHttp.onreadystatechange=function() {
+	document.getElementById('response_area').innerHTML = XMLHttp.responseText;;
+	}
+    XMLHttp.send(null);
+}
+
+$(document).keydown(function(e) { //gives the value of the key when you press down
+    if(e.keyCode == 40) {
+        downDown = true;
+    } else if(e.keyCode = 38) {
+        upDown = true;
+    }
+    else if(e.keycode != 40) {
+    	downDown = false;
+    }
+    else if(e.keycode != 38) {
+    	upDown = false;
+    }
+});
+$(document).keyup(function(e) { //tells the program that you have stopped pressing the key
+    if(e.keyCode == 40) {
+        downDown = false;
+    } else if(e.keyCode == 38) {
+        upDown = false;
+    }
+    else if(e.keycode != 40) {
+    	downDown = false;
+    }
+    else if(e.keycode != 38) {
+    	upDown = false;
+    }
+});
+	
+
+function init() {
+    ctx = $("#canvas")[0].getContext("2d");
+    width = $("#canvas").width();
+    height = $("#canvas").height();
+    paddlex = width / 2;
+    //intervalId = setInterval(draw, 20);
+    //return intervalId;
+}
+
+/*
  * 	x: x-coord of upper left corner
  *	y: y-coord of upper left corner
  *	w: width of the rectangle
@@ -72,8 +143,6 @@ function clear() {
     ctx.clearRect(0, 0, width, height);
 }
 
-var leftDown = false;
-var rightDown = false;
 
 $(document).keydown(function(e) { //gives the value of the key when you press down
     if(e.keyCode == 39) {
