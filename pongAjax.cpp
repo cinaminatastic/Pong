@@ -27,8 +27,10 @@ int main()
 	string nameRec = "name_reply"; //use this to identify different users
 	string nameSend = "name_request";
 	
-	string recName = "Did not receive";
+	string ownName = "Did not receive";
+	string otherName = "Did not receive";
 	string remote_IP = getenv("REMOTE_ADDR");
+	string userno = "-1";
 	
 	
 	// create the FIFOs for communication
@@ -45,13 +47,30 @@ int main()
 	nameSend_fifo.send(message);
 	nameSend_fifo.fifoclose();
 	
-	
 	nameRec_fifo.openread();
-	recName = nameRec_fifo.recv();
-	
-	cout << "Content-Type: text/html\n\n";
-	cout << recName;
-	nameRec_fifo.fifoclose();	
+	userno = nameRec_fifo.recv();
+	ownName = nameRec_fifo.recv();
+	otherName = nameRec_fifo.recv();
+	if (userno == "1")
+	{
+		cout << "Content-Type: text/html\n\n";
+		cout << "Username: " << ownName;
+		cout << "<br>Other connected user: " << otherName;
+		cout << "<br>You are the first user, waiting for a second connection.";
+	}
+	if (userno == "2")
+	{
+		cout << "Content-Type: text/html\n\n";
+		cout << "Username: " << ownName;
+		cout << "<br>Other connected user: " << otherName;
+		cout << "<br>You are the second user, please press ready when you are prepared to start the game.";
+	}
+	if (userno == "3")
+	{
+		cout << "Content-Type: text/html\n\n";
+		cout << "Sorry " << ownName << " the game is full, please visit at another time.";
+	}
+	nameRec_fifo.fifoclose();
 	
 	return 0;
 }

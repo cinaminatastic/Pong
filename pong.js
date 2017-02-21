@@ -9,6 +9,7 @@ var paddlex;
 var paddlew = 75;
 var paddleh = 10;
 var intervalId = 0;
+var count = 0;
 
 
 var XMLHttp;
@@ -23,7 +24,7 @@ function createAjax() { //this function is called at least
 
 }
 
-function getWord() { //function is called when submit is pressed
+function getUsername() { //function is called when submit is pressed
 
     var name = document.getElementById('name').value;	     
 
