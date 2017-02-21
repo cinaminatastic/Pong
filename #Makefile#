@@ -1,9 +1,6 @@
-#MakeFile to build and deploy the Sample US CENSUS Name Data using ajax
-# For CSC3004 Software Development
-
 # Put your user name below:
-USER= seavera
-CC= g++
+USER= gavinhannerc
+CC=+
 
 #For Optimization
 #CFLAGS= -O2
@@ -12,14 +9,11 @@ CFLAGS= -g
 
 RM= /bin/rm -f
 
-all: nameserver testclient namefetchajax PutCGI PutHTML
-#all: nameserver testclient 
+all: pongServer pongAjax PutCGI PutHTML
+#all: pongServer 
 
-testclient.o: testclient.cpp fifo.h
-	$(CC) -c $(CFLAGS) testclient.cpp
-
-pongServer.o: nameserver.cpp fifo.h
-	$(CC) -c $(CFLAGS) pongSe.cpp
+pongServer.o: pongServer.cpp fifo.h
+	$(CC) -c $(CFLAGS) pongServer.cpp
 
 pongAjax.o: pongAjax.cpp fifo.h
 	$(CC) -c $(CFLAGS) pongAjax.cpp
@@ -29,6 +23,7 @@ pongServer: pongServer.o fifo.o
 
 fifo.o:		fifo.cpp fifo.h
 		g++ -c fifo.cpp
+
 pongAjax: pongAjax.o  fifo.h
 	$(CC) pongAjax.o  fifo.o -o pongAjax -L/usr/local/lib -lcgicc
 
@@ -40,11 +35,12 @@ PutCGI: pongAjax
 	ls -l /usr/lib/cgi-bin/
 
 PutHTML:
-	cp pongWebpage.html /var/www/html/class/softdev/$(USER)
 	cp pongWebpage.css /var/www/html/class/softdev/$(USER)
+	cp pongWebpage.html /var/www/html/class/softdev/$(USER)
+	cp pong.js  /var/www/html/class/softdev/$(USER)
 
 	echo "Current contents of your HTML directory: "
 	ls -l /var/www/html/class/softdev/$(USER)
 
 clean:
-	rm -f *.o name_stats_ajax nameserver testclient
+	rm -f *.o pongServer pongAjax
