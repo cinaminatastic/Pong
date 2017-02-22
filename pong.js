@@ -28,6 +28,8 @@ function getUsername() { //function is called when submit is pressed
 	document.getElementById('response_area').innerHTML = XMLHttp.responseText;;
 	}
     XMLHttp.send(null);
+    upDown = false;
+	downDown = false;
 }
 
 function rect(x, y, w, h) {
@@ -52,14 +54,13 @@ function clear() {
 function movePaddle() {
 	if(upDown) {
 		paddley -= 5;
+		
 	} else if(downDown) {
 		paddley +=5;
 	}
-	//document.getElementById('response2').innerHTML = paddlePos;
 	clear(); //clears the rectangle...?
     rect(0, paddley, paddlew, paddleh); //sets the position of the paddle
     circle(x, y, 10); //sets the ball in motion
-
 }
 
 function paddle() {
