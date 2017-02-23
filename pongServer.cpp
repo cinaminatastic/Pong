@@ -57,7 +57,7 @@ int main()
 			nameSendfifo.send("None");
 			nameSendfifo.fifoclose();
 		}
-		if (userno == "1") //first user is connected
+		else if (userno == "1") //first user is connected
 		{
 			userno = "2";
 			nameRecfifo.openread();
