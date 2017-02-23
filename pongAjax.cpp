@@ -24,34 +24,67 @@ using namespace cgicc; // Needed for AJAX functions.
 
 int main()
 {
+	
 	string nameRec = "name_reply"; //use this to identify different users
 	string nameSend = "name_request";
+	string paddleRec = "paddle_reply";
+	string paddleSend = "paddle_request";
 	
 	string ownName = "Did not receive";
 	string otherName = "Did not receive";
 	string remote_IP = getenv("REMOTE_ADDR");
 	string userno = "-1";
 	
+	Cgicc cgiNum;    // Ajax object
+	form_iterator userNumber = cgiNum.getElement("userNumber");
+	userno = **userNumber;
 	
-	// create the FIFOs for communication
-	Fifo nameRec_fifo(nameRec);
-	Fifo nameSend_fifo(nameSend);
-
-	Cgicc cgi;    // Ajax object
-	
+	Cgicc cgi;    // Ajax object	
 	form_iterator name = cgi.getElement("name");
 	string message = **name;
 	
-
-	nameSend_fifo.openwrite();
-	nameSend_fifo.send(message);
-	nameSend_fifo.fifoclose();
+	Cgicc cgiPaddle;    // Ajax object	
+	form_iterator paddley = cgiPaddle.getElement("paddley");
+	string paddlePos = **paddley;
 	
-	nameRec_fifo.openread();
-	userno = nameRec_fifo.recv();
-	ownName = nameRec_fifo.recv();
-	otherName = nameRec_fifo.recv();
-	if (userno == "1")
+	if(userno == "-1") //get the user number from the server
+	{
+		Fifo nameRec_fifo(nameRec);
+		Fifo nameSend_fifo(nameSend);
+		
+		nameSend_fifo.openwrite();
+		nameSend_fifo.send(userno);
+		nameSend_fifo.fifoclose();
+	
+		nameRec_fifo.openread();
+		userno = nameRec_fifo.recv();
+		nameRec_fifo.fifoclose();
+		
+		cout << "Content-Type: text/html\n\n";
+		cout << userno;
+	}
+	
+	else
+	{
+		Fifo paddleRec_fifo(paddleRec);
+		Fifo paddleSend_fifo(paddleSend);
+		
+		paddleSend_fifo.openwrite();
+		paddleSend_fifo.send("*" + userno + paddlePos);
+		paddleSend_fifo.fifoclose();
+		
+		paddleRec_fifo.openread();
+		cout << "Content-Type: text/html\n\n";
+		cout << paddleRec_fifo.recv();
+		paddleRec_fifo.fifoclose();
+	}
+	
+	
+	
+	
+	// create the FIFOs for communication
+	
+	/*if (userno == "1")
 	{
 		cout << "Content-Type: text/html\n\n";
 		cout << "Username: " << ownName;
@@ -70,7 +103,7 @@ int main()
 		cout << "Content-Type: text/html\n\n";
 		cout << "Sorry " << ownName << " the game is full, please visit at another time.";
 	}
-	nameRec_fifo.fifoclose();
+	*/
 	
 	return 0;
 }

@@ -1,0 +1,59 @@
+//.......Ajax
+
+if (userno == 1 || userno == 2) {
+	
+	Cgicc cgi;    // Ajax object
+	
+	form_iterator paddley = cgi.getElement("paddley");
+	string paddlePos = **paddley;
+	
+	userFifo.openwrite();
+	userFifo.send(user);
+	userFifo.fifoclose();
+	
+	paddleSendFifo.openwrite();
+	paddleSendFifo.send(paddlePos);
+	paddleSendFifo.fifoclose();
+	
+	paddle/ball position fifos...
+	
+}
+	
+
+
+
+//.......Server
+
+
+while(1) {
+	userFifo.openread();
+	var user = userFifo.recv();
+	userFifo.fifoclose();
+	paddleRecFifo.openread();
+	if (user == 1) {
+		u1paddle = paddleRecFifo.recv();
+	}
+	if (user == 2) {
+		u2paddle = paddleRecFifo.recv();
+	}
+	paddleFifo.fifoclose();
+	
+	paddle1SendFifo.openwrite();
+	paddle1SendFifo.send(u1paddle);
+	paddle1SendFifo.fifoclose();
+	
+	paddle2SendFifo.openwrite();
+	paddle2SendFifo.send(u2paddle);
+	paddle2SendFifo.fifoclose();
+	
+	ballxSendFifo.openwrite();
+	ballxSendFifo.send(ballx);
+	ballx2SendFifo.fifoclose();
+	
+	ballySendFifo.openwrite();
+	ballySendFifo.send(bally);
+	bally2SendFifo.fifoclose();
+
+}
+	
+	

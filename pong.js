@@ -6,26 +6,69 @@ var ctx;
 var width;
 var height;
 var paddley;
+var paddle2y;
 var paddlew = 10;
 var paddleh = 75;
 var intervalId = 0;
+var userNumber = -1;
 
 
 var XMLHttp;
 var upDown = false;
 var downDown = false;
+var name
 
+function initialize() { //this function is called at least
+
+	if(navigator.appName == "Microsoft Internet Explorer") {
+		XMLHttp = new ActiveXObject("Microsoft.XMLHTTP");
+	} else {
+		XMLHttp = new XMLHttpRequest(); //this else part is entered using chrome
+	}
+	document.getElementById("canvas").style.background = 'rgb(128, 128, 128)';
+	init();
+	paddley = height/2;
+	paddle2y = height/2;
+
+}
+
+function paddle() {
+
+    intVar = setInterval(function(){ movePaddle()}, 20);
+}
+
+function movePaddle() {
+	if(upDown) {
+		paddley -= 5;
+		
+	} else if(downDown) {
+		paddley +=5;
+	}
+	clear(); //clears the rectangle...?
+    rect(0, paddley, paddlew, paddleh); //sets the position of the paddle
+    circle(x, y, 10); //sets the ball in motion
+    
+    XMLHttp.open("GET", "/cgi-bin/gavinhannerc_pongAjax.cgi?" + "&name=" + name + "&userNumber=" + userNumber + "&paddley=" + paddley, true);
+
+    XMLHttp.onreadystatechange=function() {
+		paddle2y = XMLHttp.responseText;;
+	}
+    XMLHttp.send(null);
+    clear();
+    rect(width - paddlew, paddle2y, paddlew, paddleh); //sets the position of the paddle
+}
 
 function getUsername() { //function is called when submit is pressed
 
-    var name = document.getElementById('name').value;	     
+    name = document.getElementById('name').value;	     
 
     if (name.length < 1) return;
 
-    XMLHttp.open("GET", "/cgi-bin/seavera_pongAjax.cgi?" + "&name=" + name, true);
+    XMLHttp.open("GET", "/cgi-bin/gavinhannerc_pongAjax.cgi?" + "&name=" + name + "&userNumber=" + userNumber + "&paddley=" + paddley, true);
 
     XMLHttp.onreadystatechange=function() {
-	document.getElementById('response_area').innerHTML = XMLHttp.responseText;;
+		userNumber = XMLHttp.responseText;;
+		document.getElementById('response_area').innerHTML = userNumber;;
 	}
     XMLHttp.send(null);
     upDown = false;
@@ -48,38 +91,6 @@ function circle(x, y, r) {
 
 function clear() {
     ctx.clearRect(0, 0, width, height);
-}
-
-
-function movePaddle() {
-	if(upDown) {
-		paddley -= 5;
-		
-	} else if(downDown) {
-		paddley +=5;
-	}
-	clear(); //clears the rectangle...?
-    rect(0, paddley, paddlew, paddleh); //sets the position of the paddle
-    circle(x, y, 10); //sets the ball in motion
-}
-
-function paddle() {
-
-    intVar = setInterval(function(){ movePaddle()}, 20);
-}
-
-
-function initialize() { //this function is called at least
-
-	if(navigator.appName == "Microsoft Internet Explorer") {
-		XMLHttp = new ActiveXObject("Microsoft.XMLHTTP");
-	} else {
-		XMLHttp = new XMLHttpRequest(); //this else part is entered using chrome
-	}
-	document.getElementById("canvas").style.background = 'rgb(128, 128, 128)';
-	init();
-	paddley = height/2;
-
 }
 
 function getWord() { //function is called when submit is pressed
