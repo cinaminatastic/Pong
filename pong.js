@@ -11,6 +11,7 @@ var paddlew = 10;
 var paddleh = 75;
 var intervalId = 0;
 var userNumber = -1;
+var padRec;
 
 
 var XMLHttp;
@@ -34,7 +35,7 @@ function initialize() { //this function is called at least
 
 function paddle() {
 
-    intVar = setInterval(function(){ movePaddle()}, 20);
+    intVar = setInterval(function(){ movePaddle()}, 200);
 }
 
 function movePaddle() {
@@ -51,11 +52,12 @@ function movePaddle() {
     XMLHttp.open("GET", "/cgi-bin/gavinhannerc_pongAjax.cgi?" + "&name=" + name + "&userNumber=" + userNumber + "&paddley=" + paddley, true);
 
     XMLHttp.onreadystatechange=function() {
-		paddle2y = XMLHttp.responseText;;
+		padRec = XMLHttp.responseText;;
 	}
     XMLHttp.send(null);
     clear();
-    rect(width - paddlew, paddle2y, paddlew, paddleh); //sets the position of the paddle
+    paddle2y = parseInt(padRec);
+    rect(width - paddlew, paddle2y, paddlew, paddleh); //sets the position of the paddle //sets the position of the paddle
 }
 
 function getUsername() { //function is called when submit is pressed
