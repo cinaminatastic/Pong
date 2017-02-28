@@ -1,7 +1,7 @@
 var x = 50; //positions of the ball
-var y = 50;
+var xNew;
 var dx = 2; //can set these to random numbers in the beginning
-var dy = 8;
+var y = 50;
 var ctx;
 var width;
 var height;
@@ -76,7 +76,15 @@ function movePaddle() {
 			
 			paddle2y = padRec.slice(0, padRec.indexOf("*"));
 			console.log(paddle2y);
-			x = padRec.slice(padRec.indexOf("*") + 1, padRec.lastIndexOf("*"));
+			xNew = padRec.slice(padRec.indexOf("*") + 1, padRec.lastIndexOf("*"));
+			if (userNumber === 2) {
+				dx = x - xNew;
+				x += dx;
+				}
+			else {
+				x = xNew;
+				}
+				
 			console.log("x: " + x);
 			y = padRec.slice(padRec.lastIndexOf("*") +1, padRec.length);
 			console.log("y: " + y);
