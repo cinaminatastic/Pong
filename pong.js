@@ -43,7 +43,7 @@ function paddleEnd() {
 }
 function paddle() {
 
-    intVar = setInterval(function(){ movePaddle()}, 500);
+    intVar = setInterval(function(){ movePaddle()}, 100);
 }
 
 function movePaddle() {
@@ -69,21 +69,30 @@ function movePaddle() {
 
     XMLHttp2.onreadystatechange=function() {
     	if (XMLHttp2.readyState == 4) {
-    		console.log("if (XMLHttp2.readyState == 4)");
+    		//console.log("if (XMLHttp2.readyState == 4)");
 			padRec = XMLHttp2.responseText;;
-			paddle2y = padRec;
+			
+			
+			
+			paddle2y = padRec.slice(0, padRec.indexOf("*"));
+			console.log(paddle2y);
+			x = padRec.slice(padRec.indexOf("*") + 1, padRec.lastIndexOf("*"));
+			console.log("x: " + x);
+			y = padRec.slice(padRec.lastIndexOf("*") +1, padRec.length);
+			console.log("y: " + y);
+			
 			if (padRec === undefined) {
 				console.log("Null response");
     		} else {
-			console.log("else statement		Recv: " + padRec + ":" + paddle2y);
-			clear(); //clears the rectangle...?
-    		rect(0, paddley, paddlew, paddleh);
-			rect(width - paddlew, paddle2y, paddlew, paddleh); //sets the position of the paddle //sets the position of the paddle
-			circle(x, y, 10); //sets the ball in motion
-			waitPaddleTrue = false;
-			console.log(waitPaddleTrue);
-			i++;
-			console.log(i);
+				//console.log("else statement		Recv: " + padRec + ":" + paddle2y);
+				clear(); //clears the rectangle...?
+				rect(0, paddley, paddlew, paddleh);
+				rect(width - paddlew, paddle2y, paddlew, paddleh); //sets the position of the paddle //sets the position of the paddle
+				circle(x, y, 10); //sets the ball in motion
+				waitPaddleTrue = false;
+				//console.log(waitPaddleTrue);
+				//i++;
+				//console.log(i);
 			
    		 	}
 		}
