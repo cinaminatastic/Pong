@@ -24,7 +24,7 @@ pongServer: pongServer.o fifo.o
 fifo.o:		fifo.cpp fifo.h
 		g++ -c fifo.cpp
 
-pongAjax: pongAjax.o  fifo.h
+pongAjax: pongAjax.o  fifo.o
 	$(CC) pongAjax.o  fifo.o -o pongAjax -L/usr/local/lib -lcgicc
 
 PutCGI: pongAjax

@@ -12,19 +12,24 @@ var paddleh = 75;
 var intervalId = 0;
 var userNumber = -1;
 var padRec;
-
+var intVar;
+var waitPaddleMove = false;
 
 var XMLHttp;
+var XMLHttp2;
 var upDown = false;
 var downDown = false;
 var name
+var i = 0;
 
 function initialize() { //this function is called at least
 
 	if(navigator.appName == "Microsoft Internet Explorer") {
 		XMLHttp = new ActiveXObject("Microsoft.XMLHTTP");
+		XMLHttp2 = new ActiveXObject("Microsoft.XMLHTTP");
 	} else {
 		XMLHttp = new XMLHttpRequest(); //this else part is entered using chrome
+		XMLHttp2 = new XMLHttpRequest();
 	}
 	document.getElementById("canvas").style.background = 'rgb(128, 128, 128)';
 	init();
@@ -33,45 +38,77 @@ function initialize() { //this function is called at least
 
 }
 
+function paddleEnd() {
+    clearInterval(intVar);
+}
 function paddle() {
 
-    intVar = setInterval(function(){ movePaddle()}, 200);
+    intVar = setInterval(function(){ movePaddle()}, 500);
 }
 
 function movePaddle() {
-	if(upDown) {
-		paddley -= 5;
+	console.log("tope of movePaddle: " + waitPaddleMove);
+    if (waitPaddleMove) {
+		console.log("Error - previous paddle move not complete");
+		//return;
+    }
+    waitPaddleMove = true;
+    console.log(waitPaddleMove);
+    if(upDown) {
+		paddley -= 10;
 		
 	} else if(downDown) {
-		paddley +=5;
+		paddley +=10;
 	}
-	clear(); //clears the rectangle...?
-    rect(0, paddley, paddlew, paddleh); //sets the position of the paddle
-    circle(x, y, 10); //sets the ball in motion
-    
-    XMLHttp.open("GET", "/cgi-bin/gavinhannerc_pongAjax.cgi?" + "&name=" + name + "&userNumber=" + userNumber + "&paddley=" + paddley, true);
 
-    XMLHttp.onreadystatechange=function() {
-		padRec = XMLHttp.responseText;;
+    
+    
+    var sendStr = "/cgi-bin/gavinhannerc_pongAjax.cgi?" + "&name=" + name + "&userNumber=" + userNumber + "&paddley=" + paddley;
+    console.log("Send:"+ sendStr);
+    XMLHttp2.open("GET", sendStr, true);
+
+    XMLHttp2.onreadystatechange=function() {
+    	if (XMLHttp2.readyState == 4) {
+    		console.log("if (XMLHttp2.readyState == 4)");
+			padRec = XMLHttp2.responseText;;
+			paddle2y = padRec;
+			if (padRec === undefined) {
+				console.log("Null response");
+    		} else {
+			console.log("else statement		Recv: " + padRec + ":" + paddle2y);
+			clear(); //clears the rectangle...?
+    		rect(0, paddley, paddlew, paddleh);
+			rect(width - paddlew, paddle2y, paddlew, paddleh); //sets the position of the paddle //sets the position of the paddle
+			circle(x, y, 10); //sets the ball in motion
+			waitPaddleTrue = false;
+			console.log(waitPaddleTrue);
+			i++;
+			console.log(i);
+			
+   		 	}
+		}
 	}
-    XMLHttp.send(null);
-    clear();
-    paddle2y = parseInt(padRec);
-    rect(width - paddlew, paddle2y, paddlew, paddleh); //sets the position of the paddle //sets the position of the paddle
+    
+    XMLHttp2.send(null);
+    
 }
 
 function getUsername() { //function is called when submit is pressed
 
     name = document.getElementById('name').value;	     
-
-    if (name.length < 1) return;
+    console.log("getUsername");
+    if (name === undefined) return;
 
     XMLHttp.open("GET", "/cgi-bin/gavinhannerc_pongAjax.cgi?" + "&name=" + name + "&userNumber=" + userNumber + "&paddley=" + paddley, true);
-
-    XMLHttp.onreadystatechange=function() {
-		userNumber = XMLHttp.responseText;;
+    XMLHttp.onreadystatechange=function() {	
+		var tuser = XMLHttp.responseText;
+		console.log("Getting user:"+tuser);
+		if ((tuser !== undefined) && (tuser.length > 0)) {
+			userNumber = tuser;
+		}
 		document.getElementById('response_area').innerHTML = userNumber;;
-	}
+		console.log("setting user number: "+ userNumber);
+    }
     XMLHttp.send(null);
     upDown = false;
 	downDown = false;

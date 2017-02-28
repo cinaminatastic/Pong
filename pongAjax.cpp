@@ -25,7 +25,12 @@ using namespace cgicc; // Needed for AJAX functions.
 int main()
 {
 	
-	string nameRec = "name_reply"; //use this to identify different users
+	string paddleRecFromServer;
+	
+  ofstream log;
+  log.open("/tmp/gavin.log",ios::out | ios::app);
+  
+  string nameRec = "name_reply"; //use this to identify different users
 	string nameSend = "name_request";
 	string paddleRec = "paddle_reply";
 	string paddleSend = "paddle_request";
@@ -47,6 +52,10 @@ int main()
 	form_iterator paddley = cgiPaddle.getElement("paddley");
 	string paddlePos = **paddley;
 	
+	cout << "Content-Type: text/plain\n\n";
+	
+	log << "Recv :" +userno+":"+message+":"+paddlePos << endl;
+	
 	if(userno == "-1") //get the user number from the server
 	{
 		Fifo nameRec_fifo(nameRec);
@@ -59,9 +68,11 @@ int main()
 		nameRec_fifo.openread();
 		userno = nameRec_fifo.recv();
 		nameRec_fifo.fifoclose();
-		
-		cout << "Content-Type: text/html\n\n";
+
+		log << "User#: " << userno << endl;
+		//		cout << "Hello word\n";
 		cout << userno;
+		
 	}
 	
 	else
@@ -70,13 +81,16 @@ int main()
 		Fifo paddleSend_fifo(paddleSend);
 		
 		paddleSend_fifo.openwrite();
-		paddleSend_fifo.send("*" + userno + paddlePos);
-		paddleSend_fifo.fifoclose();
+		paddleSend_fifo.send("*" + userno + "*" + paddlePos);
+		
 		
 		paddleRec_fifo.openread();
-		cout << "Content-Type: text/html\n\n";
-		cout << paddleRec_fifo.recv();
+		log << "Waiting for read from server\n";
+		paddleRecFromServer = paddleRec_fifo.recv();
+		cout << paddleRecFromServer << endl;
+		log << "move:" << paddleRecFromServer << endl;
 		paddleRec_fifo.fifoclose();
+		paddleSend_fifo.fifoclose();
 	}
 	
 	

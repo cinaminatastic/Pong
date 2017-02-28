@@ -33,7 +33,7 @@ Fifo::Fifo(string name){
     cout << "Error creating pipe: " << name << endl;
     return;
   }
-  cout << "Success creating pipe: " << name << endl;
+  //cout << "Success creating pipe: " << name << endl;
   fd = 0;
   return;
 
@@ -49,7 +49,7 @@ void Fifo::openwrite() {
 
   // Check if open succeeded
   if (fd ==-1) {
-	cout << "Error - bad input pipe: " << pipename << endl;
+    //cout << "Error - bad input pipe: " << pipename << endl;
 	return;
   }
 }

@@ -39,6 +39,7 @@ int main()
 	string paddleSend_fifo = "paddle_reply";
 	string userno = "-1";
 	string jsUserno = "0";
+	int i = 0;
 	
 	// create the FIFOs for communication
 	Fifo nameRecfifo(nameRec_fifo);
@@ -87,23 +88,34 @@ int main()
 	while(userno == "2") {
 		paddleRecfifo.openread();
 		recString = paddleRecfifo.recv();
-		paddleRecfifo.fifoclose();
+		
+		cout << recString << endl;
 		
 		string user = recString.substr(1,1);
+		
 		if (user == "1") {
-			p1Paddle = recString.substr(2, recString.length()-2);
+			p1Paddle = recString.substr(3, recString.length()-3);
 			cout << "P1 Paddle: " << p1Paddle << endl;
 			paddleSendfifo.openwrite();
+			cout << "fifo opened" << endl;			
 			paddleSendfifo.send(p2Paddle);
-			paddleSendfifo.fifoclose();
+			cout << "Sent: p2: " << p2Paddle << endl;
+			cout << "fifo sent" << endl;
 		}
 		if (user == "2") {
-			p2Paddle = recString.substr(2, recString.length()-2);
+			p2Paddle = recString.substr(3, recString.length()-3);
 			cout << "P2 Paddle: " << p2Paddle << endl;
 			paddleSendfifo.openwrite();
+			cout << "fifo opened" << endl;
 			paddleSendfifo.send(p1Paddle);
-			paddleSendfifo.fifoclose();
+			cout << "Sent: p1: " << p1Paddle << endl;
+			cout << "fifo sent" << endl;
 		}
+		paddleRecfifo.fifoclose();
+		cout << "rec fifo close" << endl;
+		paddleSendfifo.fifoclose();
+		cout << "send fifo close" << endl;
+		i++;
 		
 	}
 	
@@ -111,3 +123,67 @@ int main()
 	
 	return 0;
 }
+
+/*if (x + dx > width || x + dx < 0) { //if the ball hits the sides of the board. [0--------width]
+        dx = -dx;
+    }
+    
+    
+    if (y + dy < 0) { //if y is less than 0 (top), reverse the direction of the ball
+        dy = -dy;
+        
+    } else if (y + dy > height) { //if the ball goes farther down than it should
+        if (x > paddlex && x < paddlex + paddlew) { //if the x position of the ball is along the paddle, reverse the direction
+            dy = -dy;
+        } else { //if not along the paddle, clear the game
+            clearInterval(intervalId);
+        }
+    }
+    x += dx; //new changes in ball position
+    y += dy;
+    
+    
+    need:
+    	int canvasWidth;
+    	int canvasHeight;
+    	int x;
+    	int y;
+    	int dx;
+    	int dy;
+    	int paddleHeight;
+    	
+    	
+    	
+    	if (y + dy > canvasHeight || y + dy < 0) {
+    		dy = -dy;
+    		}
+    	if ( x + dx > canvasWidth) {
+    		if (y > p2Paddle && y < p2Paddle + paddleHeight) {
+    			dy = -dy;
+    			}
+    		else {
+    			gameInPlay = false;
+    			}
+    	if ( x + dx < 0) {
+    		if (y > p1Paddle && y < p1Paddle + paddleHeight) {
+    			dy = -dy;
+    			}
+    		else {
+    			gameInPlay = false;
+    			}
+    		}
+    	x += dx;
+    	y += dy;*/
+    			
+    		
+    	
+
+
+
+
+
+
+
+
+
+

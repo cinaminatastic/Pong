@@ -4,12 +4,13 @@
 		<script type = "text/javascript" src="pong.js"></script>
 		<link rel="stylesheet" type="text/css" href="pongWebpage.css">
 	</head>
-	<body onload="initialize()"> <!-- onload="init()" -->
+	<body onload="initialize()">
 		<h1>Pong</h1>
 		<p>Project by Alex Seaver and Coire Gavin-Hanner</p>
 		<hr>Enter Your Username:<input name="name" type="text" id=name maxlength=30></td>
-		<p><input type="button" onclick="javascript: getUsername()" name="submit" value="Submit" /></p>
-		<p><input type="button" onclick="javascript: paddle()" name="submit" value="Submit" /></p>
+		<p><input type="button" onclick="javascript: getUsername()" name="submit" value="Set Name" /></p>
+		<p><input type="button" onclick="javascript: paddle()" name="submit" value="Start Game" /></p>
+		<p><input type="button" onclick="javascript: paddleEnd()" name="submit" value="Stop Game" /></p>
 		<div id = "response_area"></div>
 		<div id = "response2"></div>
 		<canvas id="canvas" width="300" height="300"></canvas>
