@@ -101,16 +101,16 @@ int main()
     		dy = -dy;
     		}
     	if ( x + dx > canvasWidth) {
-    		if (y > p2PaddleInt && y < p2PaddleInt + paddleHeight) {
-    			dy = -dy;
+    		if (x > p2PaddleInt && x < p2PaddleInt + paddleHeight) {
+    			dx = -dx;
     			}
     		else {
     			gameInPlay = false;
     			}
     		}
     	if ( x + dx < 0) {
-    		if (y > p1PaddleInt && y < p1PaddleInt + paddleHeight) {
-    			dy = -dy;
+    		if (x > p1PaddleInt && x < p1PaddleInt + paddleHeight) {
+    			dx = -dx;
     			}
     		else {
     			gameInPlay = false;
@@ -148,8 +148,6 @@ int main()
 		paddleSendfifo.fifoclose();
 		cout << "send fifo close" << endl;
 		
-		p1PaddleInt = stoi(p1Paddle, nullptr);
-		p2PaddleInt = stoi(p2Paddle, nullptr);
 	}
 	
 	/*while(userno == "2" && gameInPlay == false) {
