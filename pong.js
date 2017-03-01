@@ -1,7 +1,8 @@
-var x = 50; //positions of the ball
+var x = 150; //positions of the ball
 var xNew;
 var dx = 2; //can set these to random numbers in the beginning
-var y = 50;
+var mirrorx = 150;
+var y = 150;
 var ctx;
 var width;
 var height;
@@ -43,7 +44,7 @@ function paddleEnd() {
 }
 function paddle() {
 
-    intVar = setInterval(function(){ movePaddle()}, 100);
+    intVar = setInterval(function(){ movePaddle()}, 500);
 }
 
 function movePaddle() {
@@ -63,7 +64,7 @@ function movePaddle() {
 
     
     
-    var sendStr = "/cgi-bin/gavinhannerc_pongAjax.cgi?" + "&name=" + name + "&userNumber=" + userNumber + "&paddley=" + paddley;
+    var sendStr = "/cgi-bin/seavera_pongAjax.cgi?" + "&name=" + name + "&userNumber=" + userNumber + "&paddley=" + paddley;
     console.log("Send:"+ sendStr);
     XMLHttp2.open("GET", sendStr, true);
 
@@ -72,14 +73,16 @@ function movePaddle() {
     		//console.log("if (XMLHttp2.readyState == 4)");
 			padRec = XMLHttp2.responseText;;
 			
-			
-			
 			paddle2y = padRec.slice(0, padRec.indexOf("*"));
 			console.log(paddle2y);
 			xNew = padRec.slice(padRec.indexOf("*") + 1, padRec.lastIndexOf("*"));
-			if (userNumber === 2) {
-				dx = x - xNew;
+			console.log("First x: " + x);
+			console.log("xNew: " + xNew);
+			if (userNumber === "2") {
+				dx = mirrorx - xNew;
 				x += dx;
+				console.log("Second x: " + x);
+				mirrorx = xNew;
 				}
 			else {
 				x = xNew;

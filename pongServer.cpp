@@ -39,8 +39,8 @@ int main()
 	//needed for ball control
 	int canvasWidth = 300;
 	int canvasHeight = 300;
-	int x = 50; //positions of the ball
-	int y = 50;
+	int x = 150; //positions of the ball
+	int y = 150;
 	int dx = 2; //can set these to random numbers in the beginning
 	int dy = 8;
 	int paddleHeight = 75;
@@ -48,8 +48,8 @@ int main()
 	int p1PaddleInt = 150;
 	int p2PaddleInt = 150;
 	
-	string xStr = "50";
-	string yStr = "50";
+	string xStr = "150";
+	string yStr = "150";
 	
 	// create the FIFOs for communication
 	Fifo nameRecfifo(nameRec_fifo);
@@ -101,7 +101,7 @@ int main()
     		dy = -dy;
     		}
     	if ( x + dx > canvasWidth) {
-    		if (x > p2PaddleInt && x < p2PaddleInt + paddleHeight) {
+    		if (y > p2PaddleInt && y < p2PaddleInt + paddleHeight) {
     			dx = -dx;
     			}
     		else {
@@ -109,7 +109,7 @@ int main()
     			}
     		}
     	if ( x + dx < 0) {
-    		if (x > p1PaddleInt && x < p1PaddleInt + paddleHeight) {
+    		if (y > p1PaddleInt && y < p1PaddleInt + paddleHeight) {
     			dx = -dx;
     			}
     		else {
